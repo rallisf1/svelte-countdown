@@ -12,7 +12,7 @@ Then install the component by running the following command in your project's di
 npm install svelte-countdown
 ```
 
-## Features ❌
+## Features ❤
 * Only 1 dependency! [dayjs](https://day.js.org/)
 * Support for timezones & DST
 * _done_ key to simplify what to show once the countdown is finished
@@ -48,7 +48,7 @@ import Countdown from 'svelte-countdown';
 </Countdown>
 ```
 
-In the slot space between `<Countdown></Countdown>` you can write your template however you like. Use the same keys you declared above for the countdownResult object in your template.
+In the slot space between `<Countdown></Countdown>` you can write your template however you like. Use the keys as per the example above.
 
 _I recommend not to change the "remaining" object name. If you need to you can do it like so:_
 ```
