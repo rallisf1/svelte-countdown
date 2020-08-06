@@ -31,7 +31,7 @@ import Countdown from 'svelte-countdown';
 2. Call the component where you want it to be placed e.g.:
 
 ```html
-<Countdown from="2020-11-09 09:30:00" format="YYYY-MM-DD H:m:s" zone="Europe/Athens" let:remaining>
+<Countdown from="2020-11-09 09:30:00" dateFormat="YYYY-MM-DD H:m:s" zone="Europe/Athens" let:remaining>
     <div class="whatever">
         {#if remaining.done === false}
         <span>{remaining.years} years</span>
@@ -60,7 +60,7 @@ let:remaining={yourvariable}
 | Name | Default | Required | Description |
 | ---- | ------- | -------- | ----------- |
 | from | none | Yes | Effect duration in milliseconds |
-| format | YYYY-MM-DD H:m:s | No | See https://day.js.org/docs/en/parse/string-format |
+| dateFormat | YYYY-MM-DD H:m:s | No | See https://day.js.org/docs/en/parse/string-format |
 | zone | none | No | Use canonical timezones from https://en.wikipedia.org/wiki/List_of_tz_database_time_zones |
 
 ## The Cons ❌
