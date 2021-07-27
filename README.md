@@ -25,7 +25,7 @@ dayjs is a modern alternative to momentjs with compatible Api. The main differen
 1. First import the component on your svelte page's script section.
 
 ```js
-import Countdown from 'svelte-countdown';
+import Countdown from 'svelte-countdown/src/index.js'
 ```
 
 2. Call the component where you want it to be placed e.g.:
