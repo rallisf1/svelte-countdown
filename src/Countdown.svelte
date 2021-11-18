@@ -28,15 +28,15 @@ onMount(() => {
     let target = dayjs(from, dateFormat);
     let local = dayjs();
     if(zone){
-        let remoteTZ = database.find( ({ timezone }) => timezone === zone );
-        let localTZ = database.find( ({ timezone }) => timezone === Intl.DateTimeFormat().resolvedOptions().timeZone );
+        let remoteTZ = database.find( ({ Timezone }) => Timezone === zone );
+        let localTZ = database.find( ({ Timezone }) => Timezone === Intl.DateTimeFormat().resolvedOptions().timeZone );
         if(remoteTZ && localTZ){
             // calc UTC + DST diff
             let remoteDiff = UTCdiff(target, remoteTZ);
             let localDiff = UTCdiff(local, localTZ);
 
-            target = (remoteDiff > 0) ? target.add(remoteDiff, 'minutes') : target.subtrack(Math.abs(remoteDiff), 'minutes');
-            local = (localDiff > 0) ? local.add(localDiff, 'minutes') : local.subtrack(Math.abs(localDiff), 'minutes');
+            target = (remoteDiff > 0) ? target.add(remoteDiff, 'minutes') : target.subtract(Math.abs(remoteDiff), 'minutes');
+            local = (localDiff > 0) ? local.add(localDiff, 'minutes') : local.subtract(Math.abs(localDiff), 'minutes');
         } else {
             if(!remoteTZ) console.warn('[svelte-countdown] Timezone not found in database. Please use a canonical timezone from https://en.wikipedia.org/wiki/List_of_tz_database_time_zones');
             if(!localTZ) console.warn('[svelte-countdown] Intl API not supported by browser, cannot calculate timezone difference!');
@@ -83,6 +83,7 @@ function UTCdiff(date, tz){
     let st = tz['Offset'].split(':').map(function(item){
         return parseInt(item);
     });
+	let isDST = false;
     if(tz['Offset'] == tz['DST Offset']){
         // no DST
         if(st[0] === 0 && st[1] === 0) return 0; // no diff
@@ -92,7 +93,6 @@ function UTCdiff(date, tz){
         let dst = tz['DST Offset'].split(':').map(function(item){
             return parseInt(item);
         });
-        let isDST = false;
         let tmpDate;
         if(tz['Timezone'].indexOf('Europe') === 0){
             switch(true){
@@ -606,7 +606,7 @@ function UTCdiff(date, tz){
                     break;
             }
         }
-        return (isDST) ? parseInt(((isMinus)?'-':'')+(dst[0]*60)+dst[1]) : parseInt(((isMinus)?'-':'')+(st[0]*60)+st[1]);;
+        return (isDST) ? parseInt(((isMinus)?'-':'')+(dst[0]*60)+dst[1]) : parseInt(((isMinus)?'-':'')+(st[0]*60)+st[1]);
     }
 }
 
