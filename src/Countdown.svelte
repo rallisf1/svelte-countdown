@@ -16,7 +16,7 @@ let remaining = {
     hours: 0,
     minutes: 0,
     seconds: 0,
-    done: false
+    done: true
 }
 let r = 0;
 var timer;
