@@ -64,7 +64,6 @@ let:remaining={yourvariable}
 | zone | none | No | Use canonical timezones from https://en.wikipedia.org/wiki/List_of_tz_database_time_zones |
 
 ## The Cons ❌
-* Timezones & DST computation is hardcoded (valid @ April 2020) - Will accept PRs for fixes
 * No callback, I suppose the _done_ key is enough. Will update upon request.
 * No milliseconds counting. Will update upon request.
 * Tests - It's pretty straight forward but feel free to contribute.
