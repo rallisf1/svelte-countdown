@@ -1,10 +1,10 @@
 <script>
 import { onMount } from 'svelte'
 import dayjs from 'dayjs'
-import duration from 'dayjs/plugin/duration'
-import utc from 'dayjs/plugin/utc'
-import tz from 'dayjs/plugin/timezone'
-import customParseFormat from 'dayjs/plugin/customParseFormat'
+import duration from 'dayjs/plugin/duration.js'
+import utc from 'dayjs/plugin/utc.js'
+import tz from 'dayjs/plugin/timezone.js'
+import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 
 dayjs.extend(duration)
 dayjs.extend(utc)
