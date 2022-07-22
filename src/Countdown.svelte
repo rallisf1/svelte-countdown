@@ -11,7 +11,7 @@ dayjs.extend(utc)
 dayjs.extend(tz)
 dayjs.extend(customParseFormat)
 
-export let from, dateFormat, zone
+export let from, dateFormat, zone, on_done
 
 let remaining = {
     years: 0,
@@ -73,6 +73,7 @@ onMount(() => {
                 done: true
             }
             clearInterval(timer)
+	    on_done()
         }
 
     }, 1000)
