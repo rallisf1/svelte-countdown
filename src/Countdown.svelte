@@ -32,7 +32,7 @@ onMount(() => {
         dateFormat = "YYYY-MM-DD H:m:s"
     }
 	try {
-		target = zone ? dayjs.tz(from, dateFormat, zone) : dayjs(from, dateFormat)
+		target = zone ? dayjs(from, dateFormat, zone) : dayjs(from, dateFormat)
 	} catch(e) {
 		if(e.message.indexOf('Invalid time zone') > -1) {
 			target = dayjs(from, dateFormat)
