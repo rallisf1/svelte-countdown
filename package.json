@@ -29,6 +29,6 @@
         "svelte": "^3.20.1"
     },
     "dependencies": {
-        "dayjs": "1.10.1"
+        "luxon": "^3.0.1"
     }
 }
