@@ -1,19 +1,10 @@
 <script>
-import { onMount } from 'svelte'
-import dayjs from 'dayjs'
-import duration from 'dayjs/plugin/duration.js'
-import utc from 'dayjs/plugin/utc.js'
-import tz from 'dayjs/plugin/timezone.js'
-import customParseFormat from 'dayjs/plugin/customParseFormat.js'
+import { DateTime } from 'luxon'
 
-dayjs.extend(duration)
-dayjs.extend(utc)
-dayjs.extend(tz)
-dayjs.extend(customParseFormat)
+let {from, dateFormat, zone} = $props()
 
-export let from, dateFormat, zone
 
-let remaining = {
+let remaining = $state({
     years: 0,
     months: 0,
     weeks: 0,
@@ -22,45 +13,41 @@ let remaining = {
     minutes: 0,
     seconds: 0,
     done: true
-}
+})
 
 let diff = 0
 let r, target, local, timer
 
-onMount(() => {
+$effect(()=>{
     if(!dateFormat){
-        dateFormat = "YYYY-MM-DD H:m:s"
+        dateFormat = "yyyy-MM-dd HH:mm:ss"
     }
-	try {
-		target = zone ? dayjs(from, dateFormat, zone) : dayjs(from, dateFormat)
-	} catch(e) {
-		if(e.message.indexOf('Invalid time zone') > -1) {
-			target = dayjs(from, dateFormat)
-			console.warn('[svelte-countdown] Countdown might not be precice as a proper timezone was not defined.')
-		} else {
-			console.warn('[svelte-countdown] Could not calculate date, make sure your "from" and "dateFormat" inputs are correct.')
-		}
+
+	target = zone ? DateTime.fromFormat(from, dateFormat).setZone(zone, { keepLocalTime: true }) : DateTime.fromFormat(from, dateFormat)
+
+	if(!target.isValid) {
+		console.warn(`[svelte-countdown] ${target.invalidReason}`)
 	}
 
-	if(dayjs.isDayjs(target)){
-		local = dayjs()	
-		diff = target.valueOf() - local.valueOf()
+	if(DateTime.isDateTime(target)){
+		r = target.diffNow(['years', 'months', 'weeks', 'days', 'hours', 'minutes', 'seconds'])
+		diff = r.toMillis()
 	}
 
     timer = setInterval(function(){
         if(diff > 0){
-            r = dayjs.duration(diff)
+			r = target.diffNow(['years', 'months', 'weeks', 'days', 'hours', 'minutes', 'seconds'])
+			diff = r.toMillis()
             remaining = {
-                years: r.years(),
-                months: r.months(),
-                weeks: r.weeks(),
-                days: r.days(),
-                hours: r.hours(),
-                minutes: r.minutes(),
-                seconds: r.seconds(),
+                years: r.years,
+                months: r.months,
+                weeks: r.weeks,
+                days: r.days,
+                hours: r.hours,
+                minutes: r.minutes,
+                seconds: Math.trunc(r.seconds),
                 done: false
             }
-            diff-=1000
         } else {
             remaining = {
                 years: 0,
@@ -77,6 +64,19 @@ onMount(() => {
 
     }, 1000)
 })
+
 </script>
 
-<slot {remaining}></slot>
+<div class="whatever">
+    {#if remaining.done === false}
+        <span>{remaining.years} years</span>
+        <span>{remaining.months} months</span>
+        <span>{remaining.weeks} weeks</span>
+        <span>{remaining.days} days</span>
+        <span>{remaining.hours} hours</span>
+        <span>{remaining.minutes} minutes</span>
+        <span>{remaining.seconds} seconds</span>
+    {:else}
+    <h2>The time has come!</h2>
+    {/if}
+</div>
