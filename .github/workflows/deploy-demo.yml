@@ -37,7 +37,7 @@ jobs:
             - name: Set countdown target
               shell: bash
               run: |
-                  target_date="$(node --input-type=module -e \"import { DateTime } from 'luxon'; console.log(DateTime.now().setZone('Europe/Athens').plus({ months: 8 }).toFormat('yyyy-MM-dd HH:mm:ss'))\")"
+                  target_date="$(node --input-type=module --eval "import { DateTime } from 'luxon'; console.log(DateTime.now().setZone('Europe/Athens').plus({ months: 8 }).toFormat('yyyy-MM-dd HH:mm:ss'))")"
                   echo "VITE_TARGET_DATE=$target_date" >> "$GITHUB_ENV"
 
             - name: Build demo
